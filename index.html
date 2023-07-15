@@ -145,8 +145,9 @@
                 $("#complete").show();
                 $("#no-pending").hide();
                 var inputDesc = $("#input-desc").val();
-                var inpt = '"'+inputVal+'"';
-                $("#pending-task").append("<tr id="+inputVal+"><td><input type='checkbox' value='"+inputVal+"' name='' class='pending-value'/></td><td>"+inputVal+"</td><td id='desc-"+inputVal+"''>"+inputDesc+"</td><td><button type='btn' class='btn btn-danger' onclick='removeDT("+inpt+");'>X</button></td></tr>");
+                var idName = inputVal.replace(" ", "-");
+                var inpt = '"'+idName+'"';
+                $("#pending-task").append("<tr id="+idName+"><td><input type='checkbox' value='"+inputVal+"' name='' class='pending-value'/></td><td>"+inputVal+"</td><td id='desc-"+idName+"''>"+inputDesc+"</td><td><button type='btn' class='btn btn-danger' onclick='removeDT("+inpt+");'>X</button></td></tr>");
                 $("#input-val").val('')
                 $("#input-desc").val('')
             }
@@ -155,18 +156,20 @@
         function toDoStatus(){
             $("#complete-tr").hide();
             $(".pending-value:checked").each(function(index,val){
-                $("#complete-task").append("<tr><td>"+$(this).val()+"</td><td>"+$("#desc-"+$(this).val()).html()+"</td></tr>");
+                var idname = ($(this).val()).replace(" ", "-");
+                $("#complete-task").append("<tr><td>"+$(this).val()+"</td><td>"+$("#desc-"+idname).html()+"</td></tr>");
                 /* $("#"+$(this).val()).remove(); */
-                removeDT($(this).val());
+                removeDT(idname);
             });
-            if ($('#pending-task li').length == 0){
+            if ($('#pending-task tr').length == 0){
                 $("#complete").hide();
                 $("#no-pending").show();
             }
         }
         function removeDT(val){
             $("#"+val).remove();
-            if ($('#pending-task li').length == 0){
+            console.log($('#pending-task tr'.length))
+            if ($('#pending-task tr').length == 0){
                 $("#complete").hide();
                 $("#no-pending").show();
             }
